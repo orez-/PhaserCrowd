@@ -3,14 +3,12 @@ window.myGame = window.myGame || {};
 (function(Phaser, myGame) {
     var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
     var player;
-    var map;
-    var buildingLayer;
+    var overworld;
 
     const MOVE_SPEED = 1500;
 
     function preload() {
         game.load.image('pedestrian', 'assets/sprites/pedestrian.png');
-        game.load.image('background', 'assets/tilemaps/bg.png');
         game.load.tilemap('level', 'assets/levels/level0.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tiles', 'assets/tilemaps/overworld.png');
     }
@@ -19,14 +17,7 @@ window.myGame = window.myGame || {};
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.add.sprite(0, 0, 'background');
 
-        // map shit
-        map = game.add.tilemap('level', 256, 256);
-        map.addTilesetImage('Crowd', 'tiles');
-        map.createLayer('floor');
-        buildingLayer = map.createLayer('building');
-        map.setCollisionByExclusion([], true, 'building');
-        //  Resize the world
-        buildingLayer.resizeWorld();
+        overworld = new myGame.Overworld(game, 'Crowd', 'tiles', 'level');
 
         player = game.add.sprite(384, 384, 'pedestrian');
         game.physics.arcade.enable(player);
@@ -37,23 +28,8 @@ window.myGame = window.myGame || {};
         game.camera.follow(player);
     }
 
-    function constrainVelocity(sprite, maxVelocity) {
-        var body = sprite.body;
-        var angle, currVelocitySqr, vx, vy;
-        vx = body.velocity.x;
-        vy = body.velocity.y;
-        currVelocitySqr = vx * vx + vy * vy;
-        if (currVelocitySqr > maxVelocity * maxVelocity) {
-            angle = Math.atan2(vy, vx);
-            vx = Math.cos(angle) * maxVelocity;
-            vy = Math.sin(angle) * maxVelocity;
-            body.velocity.x = vx;
-            body.velocity.y = vy;
-        }
-    }
-
     function update() {
-        constrainVelocity(player, 300);
+        myGame.Util.constrainVelocity(player, 300);
         if (cursors.left.isDown) {
             player.body.acceleration.x = -MOVE_SPEED;
         }
@@ -73,6 +49,6 @@ window.myGame = window.myGame || {};
         else {
             player.body.acceleration.y = 0;
         }
-        game.physics.arcade.collide(player, buildingLayer);
+        game.physics.arcade.collide(player, overworld.buildingLayer);
     }
 })(window.Phaser, window.myGame);
