@@ -1,8 +1,8 @@
 window.myGame = window.myGame || {};
 
 (function(Phaser, myGame) {
-    const Actor = function(game, image) {
-        Phaser.Sprite.call(this, game, 384, 384, image);
+    const Actor = function(game, x, y, image) {
+        Phaser.Sprite.call(this, game, x, y, image);
         game.physics.arcade.enable(this);
         this.body.drag.x = 1000;
         this.body.drag.y = 1000;

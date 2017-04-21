@@ -21,8 +21,8 @@ window.myGame = window.myGame || {};
         overworld = new myGame.Overworld(game, 'Crowd', 'tiles', 'level');
         actorGroup = game.add.group();
         for (var i=0; i<NUM_PEDESTRIANS; i++)
-            actorGroup.add(new myGame.Pedestrian(game));
-        player = new myGame.Player(game);
+            actorGroup.add(new myGame.Pedestrian(game, overworld));
+        player = new myGame.Player(game, overworld);
         actorGroup.add(player);
         cursors = game.input.keyboard.createCursorKeys();
         game.camera.follow(player);

@@ -1,8 +1,9 @@
 window.myGame = window.myGame || {};
 
 (function(Phaser, myGame) {
-    const Player = function(game) {
-        myGame.Actor.call(this, game, 'player');
+    const Player = function(game, overworld) {
+        var start = overworld.randomFloorPoint();
+        myGame.Actor.call(this, game, start.x, start.y, 'player');
     }
     Player.prototype = Object.create(myGame.Actor.prototype);
     Player.prototype.constructor = Player;

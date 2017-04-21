@@ -2,8 +2,10 @@ window.myGame = window.myGame || {};
 
 (function(Phaser, myGame) {
     const ACCEPTABLE_GOAL_DISTANCE = 20;
-    const Pedestrian = function(game) {
-        myGame.Actor.call(this, game, 'pedestrian');
+    const Pedestrian = function(game, overworld) {
+        this.overworld = overworld;
+        var start = overworld.randomFloorPoint();
+        myGame.Actor.call(this, game, start.x, start.y, 'pedestrian');
         this.goal = new Phaser.Point();
         this.setNewGoal();
     }
@@ -22,8 +24,7 @@ window.myGame = window.myGame || {};
     };
 
     Pedestrian.prototype.setNewGoal = function() {
-        this.goal.x = this.game.rnd.integerInRange(256, 6144);
-        this.goal.y = this.game.rnd.integerInRange(256, 6144);
+        this.goal = this.overworld.randomFloorPoint();
     };
     myGame.Pedestrian = Pedestrian;
 })(window.Phaser, window.myGame);
