@@ -39,7 +39,7 @@ window.myGame = window.myGame || {};
     };
 
     Pedestrian.prototype.onBubbleInvasion = function(invader) {
-        const G = 500000;
+        const G = 1200000;
         var bubble_center = this.body.center;
         var actor_center = invader.body.center;
         var r2 = Phaser.Math.distanceSq(bubble_center.x, bubble_center.y, actor_center.x, actor_center.y);
