@@ -30,7 +30,7 @@ window.myGame = window.myGame || {};
     Overworld.prototype.randomFloorPoint = function() {
         // Get a random point on the floor (not in a building)
         var tile = Phaser.ArrayUtils.getRandomItem(this.floorTiles);
-        return new Phaser.Point(tile.worldX, tile.worldY);
+        return new Phaser.Point(tile.worldX + 128, tile.worldY + 128);
     };
 
     Overworld.prototype.buildPath = function(parents, targetNode) {
